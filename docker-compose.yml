@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  rest-api:
+    build: ./backend/go-rest-api
+    ports:
+      - "8081:8081"
+    networks: 
+      - fullstack
+  app:
+    build: ./app
+    environment: 
+      - BASE_URL=http://192.168.99.100:8081
+    ports:
+      - "8080:8080"
+    networks: 
+      - fullstack
+networks: 
+  fullstack:
+    driver: bridge
+    
+    
+  
