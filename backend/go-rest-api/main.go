@@ -320,7 +320,7 @@ func GenerateJWT(user User) (string, error) { // JWT Generator
 	claims["avatar"] = user.Avatar
 	claims["id"] = user.ID
 	claims["favorites"] = user.Favorites
-	claims["exp"] = time.Now().Add(time.Second*10).Unix() * 1000 // Duration
+	claims["exp"] = time.Now().Add(time.Minute*30).Unix() * 1000 // Duration
 
 	tokenString, err := token.SignedString(mySigningKey)
 
@@ -337,23 +337,19 @@ func validateEmail(email string) bool {
 	return Re.MatchString(email)
 }
 
-func main() {
-	handleRequests()
-}
-
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	// Routes...
 	myRouter.HandleFunc("/", homePage)
 	myRouter.HandleFunc("/posts", allPosts).Methods("GET")
-	myRouter.HandleFunc("/posts", sendPost).Methods("POST", "OPTIONS")
+	myRouter.HandleFunc("/posts", sendPost).Methods("POST")
 	myRouter.HandleFunc("/comments", getComments).Methods("GET")
 	myRouter.HandleFunc("/comments", sendComment).Methods("POST")
 	myRouter.HandleFunc("/favorite", getFavorite).Methods("GET")
 	myRouter.HandleFunc("/favorite", setFavorite).Methods("POST")
-	myRouter.HandleFunc("/login", login).Methods("POST", "OPTIONS")
-	myRouter.HandleFunc("/register", register).Methods("POST", "OPTIONS")
+	myRouter.HandleFunc("/login", login).Methods("POST")
+	myRouter.HandleFunc("/register", register).Methods("POST")
 
 	handler := handlers.CORS( // CORS Settings...
 		handlers.AllowedOrigins([]string{"*"}),
@@ -367,4 +363,8 @@ func handleRequests() {
 	fmt.Println("Server listen on", *httpAddr)
 	log.Fatal(http.ListenAndServe(*httpAddr, handler))
 
+}
+
+func main() {
+	handleRequests()
 }
