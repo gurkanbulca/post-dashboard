@@ -1,3 +1,3 @@
 export const JWTsecretKey = "mysuperduperubersecretkey"
 
-export const baseURL = "http://192.168.99.100:8081"
+export const baseURL = "http://localhost:8081"

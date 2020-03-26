@@ -9,8 +9,6 @@ services:
       - fullstack
   app:
     build: ./app
-    environment: 
-      - BASE_URL=http://192.168.99.100:8081
     ports:
       - "8080:8080"
     networks: 
